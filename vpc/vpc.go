@@ -6,12 +6,13 @@ import (
 	"fmt"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	"log"
 )
 
 func GetVpc() error {
 	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion("us-west-2"))
 	if err != nil {
-		return err
+		log.Fatal(err)
 	}
 	svc := ec2.NewFromConfig(cfg)
 	resp, err := svc.DescribeVpcs(context.TODO(), &ec2.DescribeVpcsInput{})
