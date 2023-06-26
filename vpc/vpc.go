@@ -23,3 +23,18 @@ func GetVpc() error {
 	}
 	return nil
 }
+
+func GetVpcSubnets() error {
+	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion("us-west-2"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	svc := ec2.NewFromConfig(cfg)
+	resp, err := svc.DescribeSubnets(context.TODO(), &ec2.DescribeSubnetsInput{})
+
+	for _, object := range resp.Subnets {
+		obj, _ := json.MarshalIndent(object, "", "\t")
+		fmt.Println(string(obj))
+	}
+	return nil
+}

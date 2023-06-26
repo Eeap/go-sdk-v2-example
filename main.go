@@ -10,6 +10,10 @@ func main() {
 	if errVpc != nil {
 		panic(errVpc)
 	}
+	errSubnets := vpcTest.GetVpcSubnets()
+	if errSubnets != nil {
+		panic(errSubnets)
+	}
 	errEC2 := ec2Test.GetEC2InstanceTypes()
 	if errEC2 != nil {
 		panic(errEC2)

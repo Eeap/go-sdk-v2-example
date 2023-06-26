@@ -1,5 +1,5 @@
 # go-sdk-v2-example
-This is go-sdk-v2 sample (cont..)
+This is go-sdk-v2 sample
 
 ## Usage
 You should check go version and install sdk for go v2(It is for 1.15 or later)
@@ -19,4 +19,10 @@ aws_secret_access_key = your_secret_key
 `context.TODO()` will find your access key in your credentials directory.
 
 ### GetVpc
-Get Vpc information (cont..)
+TBA
+
+### GetVPCSubnets
+TBA
+
+### GetEC2InstanceTypes
+TBA
