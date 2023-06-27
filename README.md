@@ -19,10 +19,83 @@ aws_secret_access_key = your_secret_key
 `context.TODO()` will find your access key in your credentials directory.
 
 ### GetVpc
-TBA
+`DescribeVpcssInput`
+```json
+{
+  # Check whether you have the required permissions for the action
+  DryRun *bool => true or false (default false),
+  # There are many FilterTypes (cidr, cidr-block-association.cidr-block, state, owner-id, is-default, vpc-id, ...etc)
+  Filters []types.Filter,
+  # The maximum number of items to return
+  MaxResults *int32,
+  # The token returned from a previous paginated req
+  NextToken *string,
+  # One or more VPC ids (default all VPCs)
+  VpcIds []string
+}
+```
+`DescribeVpcsOutput`
+```json
+{
+  NextToken *string,
+  # Information about one or more vpc
+  Vpcs []types.Vpc,
+  # Metadata about operation's result (req ID, ...etc)
+  ResultMetadata middleware.Metadata
+}
+```
+
 
 ### GetVPCSubnets
-TBA
+`DescribeSubnetsInput`
+```json
+{
+  # Check whether you have the required permissions for the action
+  DryRun *bool => true or false (default false),
+  # There are many FilterTypes (availability-zone, availability-zone-id, available-ip-address-count,cidr-block,subnet-arn,subnet-id,state, ...etc)
+  Filters []types.Filter,
+  # The maximum number of items to return
+  MaxResults *int32,
+  # The token returned from a previous paginated req
+  NextToken *string,
+  # One or more subnet ids (default all subnets)
+  SubnetIds []string
+}
+```
+`DescribeSubnetsOutput`
+```json
+{
+  NextToken *string,
+  # Information about one or more subnets
+  Subnets []types.Subnet,
+  # Metadata about operation's result (req ID, ...etc)
+  ResultMetadata middleware.Metadata
+}
+```
 
 ### GetEC2InstanceTypes
-TBA
+`DescribeInstanceTypesInput`
+```json
+{
+  # Check whether you have the required permissions for the action
+  DryRun *bool => true or false (default false),
+  # There are many FilterTypes (bare-metal, free-tier-eligible, instance-type(using '*'), ebs-info.*, instance-storage-info.*, network-info.* ...etc)
+  Filters []types.Filter,
+  # The maximum number of items to return
+  MaxResults *int32,
+  # The token returned from a previous paginated req
+  NextToken *string,
+  # One or more instance types (default all instance types)
+  InstanceTypes []types.InstanceType
+}
+```
+`DescribeInstanceTypesOutput`
+```json
+{
+  NextToken *string,
+  # The instance Type
+  InstanceTypes []types.InstanceTypeInfo,
+  # Metadata about operation's result (req ID, ...etc)
+  ResultMetadata middleware.Metadata
+}
+```
