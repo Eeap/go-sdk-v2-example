@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	"log"
 )
 
@@ -30,7 +31,19 @@ func GetVpcSubnets() error {
 		log.Fatal(err)
 	}
 	svc := ec2.NewFromConfig(cfg)
-	resp, err := svc.DescribeSubnets(context.TODO(), &ec2.DescribeSubnetsInput{})
+	filterType := "availability-zone"
+	zoneName := "us-west-2a"
+	resp, err := svc.DescribeSubnets(context.TODO(), &ec2.DescribeSubnetsInput{
+		Filters: []types.Filter{
+			{
+				Name:   &filterType,
+				Values: []string{zoneName},
+			},
+		},
+		MaxResults: nil,
+		NextToken:  nil,
+		SubnetIds:  nil,
+	})
 
 	for _, object := range resp.Subnets {
 		obj, _ := json.MarshalIndent(object, "", "\t")
