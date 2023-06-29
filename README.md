@@ -20,7 +20,7 @@ aws_secret_access_key = your_secret_key
 
 ### GetVpc
 `DescribeVpcssInput`
-```json
+```bash
 {
   # Check whether you have the required permissions for the action
   DryRun *bool => true or false (default false),
@@ -35,7 +35,7 @@ aws_secret_access_key = your_secret_key
 }
 ```
 `DescribeVpcsOutput`
-```json
+```bash
 {
   NextToken *string,
   # Information about one or more vpc
@@ -48,9 +48,9 @@ aws_secret_access_key = your_secret_key
 
 ### GetVPCSubnets
 `DescribeSubnetsInput`
-```json
+```bash
 {
-  # Check whether you have the required permissions for the action
+  #Check whether you have the required permissions for the action
   DryRun *bool => true or false (default false),
   # There are many FilterTypes (availability-zone, availability-zone-id, available-ip-address-count,cidr-block,subnet-arn,subnet-id,state, ...etc)
   Filters []types.Filter,
@@ -63,7 +63,7 @@ aws_secret_access_key = your_secret_key
 }
 ```
 `DescribeSubnetsOutput`
-```json
+```bash
 {
   NextToken *string,
   # Information about one or more subnets
@@ -75,7 +75,7 @@ aws_secret_access_key = your_secret_key
 
 ### GetEC2InstanceTypes
 `DescribeInstanceTypesInput`
-```json
+```bash
 {
   # Check whether you have the required permissions for the action
   DryRun *bool => true or false (default false),
@@ -90,7 +90,7 @@ aws_secret_access_key = your_secret_key
 }
 ```
 `DescribeInstanceTypesOutput`
-```json
+```bash
 {
   NextToken *string,
   # The instance Type
