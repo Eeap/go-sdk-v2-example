@@ -14,7 +14,16 @@ func GetEC2InstanceTypes() []types.InstanceTypeInfo {
 		log.Fatal(err)
 	}
 	svc := ec2.NewFromConfig(cfg)
-	resp, err := svc.DescribeInstanceTypes(context.TODO(), &ec2.DescribeInstanceTypesInput{})
+	filterType := "instance-type"
+	instanceName := "t1.micro"
+	resp, err := svc.DescribeInstanceTypes(context.TODO(), &ec2.DescribeInstanceTypesInput{
+		Filters: []types.Filter{
+			{
+				Name:   &filterType,
+				Values: []string{instanceName},
+			},
+		},
+	})
 	if err != nil {
 		log.Fatal(err)
 	}
