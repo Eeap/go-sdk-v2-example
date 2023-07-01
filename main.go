@@ -1,21 +1,22 @@
 package main
 
 import (
-	ec2Test "main/ec2"
-	vpcTest "main/vpc"
+	"github.com/gofiber/fiber/v2"
+	"log"
+	"main/ec2"
+	"main/vpc"
 )
 
 func main() {
-	errVpc := vpcTest.GetVpc()
-	if errVpc != nil {
-		panic(errVpc)
-	}
-	errSubnets := vpcTest.GetVpcSubnets()
-	if errSubnets != nil {
-		panic(errSubnets)
-	}
-	errEC2 := ec2Test.GetEC2InstanceTypes()
-	if errEC2 != nil {
-		panic(errEC2)
-	}
+	app := fiber.New()
+	app.Get("/vpcs", func(ctx *fiber.Ctx) error {
+		return ctx.JSON(vpc.GetVpc())
+	})
+	app.Get("/vpcSubnets", func(ctx *fiber.Ctx) error {
+		return ctx.JSON(vpc.GetVpcSubnets())
+	})
+	app.Get("/instanceTypes", func(ctx *fiber.Ctx) error {
+		return ctx.JSON(ec2.GetEC2InstanceTypes())
+	})
+	log.Fatal(app.Listen(":3000"))
 }

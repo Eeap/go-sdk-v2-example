@@ -2,14 +2,13 @@ package ec2
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
+	types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	"log"
 )
 
-func GetEC2InstanceTypes() error {
+func GetEC2InstanceTypes() []types.InstanceTypeInfo {
 	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion("us-west-2"))
 	if err != nil {
 		log.Fatal(err)
@@ -19,18 +18,19 @@ func GetEC2InstanceTypes() error {
 	if err != nil {
 		log.Fatal(err)
 	}
-	for _, object := range resp.InstanceTypes {
-		objectData := make(map[string]any)
-		objectData["InstanceType"] = string(object.InstanceType)
-		objectData["InstanceStorageInfo"] = object.InstanceStorageInfo
-		objectData["EbsInfo"] = object.EbsInfo
-		objectData["ProcessorInfo"] = object.ProcessorInfo
-		objectData["GpuInfo"] = object.GpuInfo
-		objectData["NetworkInfo"] = object.NetworkInfo
-		objectData["MemoryInfo"] = object.MemoryInfo
-
-		result, _ := json.MarshalIndent(objectData, "", "	")
-		fmt.Println(string(result))
-	}
-	return nil
+	return resp.InstanceTypes
+	//for _, object := range resp.InstanceTypes {
+	//	objectData := make(map[string]any)
+	//	objectData["InstanceType"] = string(object.InstanceType)
+	//	objectData["InstanceStorageInfo"] = object.InstanceStorageInfo
+	//	objectData["EbsInfo"] = object.EbsInfo
+	//	objectData["ProcessorInfo"] = object.ProcessorInfo
+	//	objectData["GpuInfo"] = object.GpuInfo
+	//	objectData["NetworkInfo"] = object.NetworkInfo
+	//	objectData["MemoryInfo"] = object.MemoryInfo
+	//
+	//	result, _ := json.MarshalIndent(objectData, "", "	")
+	//	fmt.Println(string(result))
+	//}
+	//return nil
 }
