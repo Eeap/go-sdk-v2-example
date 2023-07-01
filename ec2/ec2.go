@@ -2,11 +2,11 @@ package ec2
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"log"
-	"strings"
 )
 
 func GetEC2InstanceTypes() error {
@@ -19,10 +19,18 @@ func GetEC2InstanceTypes() error {
 	if err != nil {
 		log.Fatal(err)
 	}
-	typeData := []string{}
 	for _, object := range resp.InstanceTypes {
-		typeData = append(typeData, string(object.InstanceType))
+		objectData := make(map[string]any)
+		objectData["InstanceType"] = string(object.InstanceType)
+		objectData["InstanceStorageInfo"] = object.InstanceStorageInfo
+		objectData["EbsInfo"] = object.EbsInfo
+		objectData["ProcessorInfo"] = object.ProcessorInfo
+		objectData["GpuInfo"] = object.GpuInfo
+		objectData["NetworkInfo"] = object.NetworkInfo
+		objectData["MemoryInfo"] = object.MemoryInfo
+
+		result, _ := json.MarshalIndent(objectData, "", "	")
+		fmt.Println(string(result))
 	}
-	fmt.Printf("[%s]", strings.Join(typeData, ", "))
 	return nil
 }
