@@ -11,6 +11,9 @@ import (
 type EC2DataTypes struct {
 	instanceTypes []types.InstanceTypeInfo
 }
+type EC2Images struct {
+	ami []types.Image
+}
 
 func GetEC2InstanceTypes() []types.InstanceTypeInfo {
 	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion("us-west-2"))
@@ -56,4 +59,37 @@ func pagingInstanceTypes(client *ec2.Client, nextToken *string, ec2InstanceTypes
 		pagingInstanceTypes(client, resp.NextToken, ec2InstanceTypes)
 	}
 	ec2InstanceTypes.instanceTypes = append(ec2InstanceTypes.instanceTypes, resp.InstanceTypes...)
+}
+
+func GetEC2AMI() []types.Image {
+	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion("us-west-2"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	client := ec2.NewFromConfig(cfg)
+	ec2Images := &EC2Images{}
+	pagingAMI(client, nil, ec2Images)
+	return ec2Images.ami
+}
+func pagingAMI(client *ec2.Client, nextToken *string, ec2Images *EC2Images) {
+	filterType := "owner-alias"
+	publicFilterType := "is-public"
+	ownerName := "amazon"
+	resp, err := client.DescribeImages(context.TODO(), &ec2.DescribeImagesInput{
+		NextToken: nextToken,
+		Filters: []types.Filter{
+			{
+				Name:   &filterType,
+				Values: []string{ownerName},
+			},
+			{
+				Name:   &publicFilterType,
+				Values: []string{"true"},
+			},
+		},
+	})
+	if err != nil {
+		return
+	}
+	ec2Images.ami = append(ec2Images.ami, resp.Images...)
 }
